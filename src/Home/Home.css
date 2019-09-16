@@ -1,8 +1,15 @@
-.titulo {
-    margin-top: 5em;
+.title {
+    margin-top: 20%;
+    margin-bottom: 15%;
+    text-align: center;
 }
 
 .imgBanner {
-    width: 10em;
+    width: 60%;
     height: auto;
+}
+
+.description {
+    font-size: 15px;
+    text-align: justify;
 }
