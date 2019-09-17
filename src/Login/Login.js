@@ -1,6 +1,6 @@
 import React from "react";
 import "./Login.css";
-import {MDBBtn, MDBCol, MDBContainer, MDBInput, MDBRow} from "mdbreact";
+import {MDBBtn, MDBCol, MDBContainer, MDBIcon, MDBInput, MDBRow} from "mdbreact";
 import {Link, Redirect} from "react-router-dom";
 
 export class Login extends React.Component {
@@ -72,7 +72,7 @@ export class Login extends React.Component {
                                 />
                             </div>
                             <div className="btnLogin">
-                                <MDBBtn color="blue" type={"submit"}>Login</MDBBtn>
+                                <MDBBtn color="blue" type={"submit"}><MDBIcon icon="sign-in-alt"/> Login</MDBBtn>
                             </div>
                         </form>
                     </MDBCol>
