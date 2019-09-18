@@ -2,15 +2,13 @@ import React from "react";
 import "./Navbar.css";
 import {
     MDBBtn,
-    MDBContainer,
     MDBDropdown, MDBDropdownItem,
     MDBDropdownMenu,
     MDBDropdownToggle,
     MDBIcon,
-    MDBNavbar,
-    MDBRow
+    MDBNavbar
 } from "mdbreact";
-import {Drawer, List, ListItem, ListItemIcon, ListItemText, Divider} from "@material-ui/core";
+import {Drawer, List, ListItem, ListItemText, Divider} from "@material-ui/core";
 import Avatar from "../imgs/avatar.png";
 import {Link} from "react-router-dom";
 
@@ -22,6 +20,7 @@ export class Navbar extends React.Component {
             isOpen: false
         };
         this.handleToggle = this.handleToggle.bind(this);
+        this.handleLogout = this.handleLogout.bind(this);
     }
 
     handleToggle = (open) => (e) => {
@@ -30,12 +29,16 @@ export class Navbar extends React.Component {
         });
     };
 
+    handleLogout(e) {
+        //localStorage.clear();
+    }
+
     render() {
         const profileBtn = (
             <Link to="/profile" style={{color: "black"}}><MDBIcon icon="user-edit"/></Link>
         );
         const logout = (
-            <Link to="/" style={{color: "black"}}><MDBIcon icon="sign-out-alt"/> Logout</Link>
+            <Link to="/" style={{color: "black"}} onClick={this.handleLogout} ><MDBIcon icon="sign-out-alt"/> Logout</Link>
         );
         const sideMenu = (
             <div style={{width: 300}} role="presentation" onClick={this.handleToggle(false)}>
@@ -60,7 +63,9 @@ export class Navbar extends React.Component {
         return (
             <div>
                 <MDBNavbar color={"blue"}>
-                    <MDBBtn onClick={this.handleToggle(true)} color={"blue"}><MDBIcon icon="bars"/></MDBBtn>
+                    <MDBBtn onClick={this.handleToggle(true)} color={"blue"}>
+                        <MDBIcon icon="bars"/>
+                    </MDBBtn>
                     <Drawer open={this.state.isOpen} onClose={this.handleToggle(false)}>
                         {sideMenu}
                     </Drawer>

@@ -59,6 +59,7 @@ export class Register extends React.Component {
             alert("Verify password.");
             return;
         }
+        localStorage.setItem("name", name);
         localStorage.setItem("username", username);
         localStorage.setItem("email", email);
         localStorage.setItem("pwd", pwd);

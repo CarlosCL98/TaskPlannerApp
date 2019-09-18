@@ -13,7 +13,7 @@ export class Home extends React.Component {
                     <MDBRow className="title">
                         <MDBCol xs={2} sm={2} md={2}></MDBCol>
                         <MDBCol xs={8} sm={8} md={8}>
-                            <img className="imgBanner" src={homeBanner}></img>
+                            <img className="imgBanner" src={homeBanner} alt="banner"></img>
                         </MDBCol>
                         <MDBCol xs={2} sm={2} md={2}></MDBCol>
                     </MDBRow>
