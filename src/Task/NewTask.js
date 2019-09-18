@@ -167,6 +167,7 @@ export class NewTask extends React.Component {
                         />
                         <InputLabel htmlFor="status">Status</InputLabel>
                         <Select style={{minWidth: "100%"}}
+                                id="status"
                                 value={this.state.newTask.status}
                                 onChange={this.handleStatus}
                         >
