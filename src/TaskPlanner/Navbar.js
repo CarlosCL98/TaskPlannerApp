@@ -11,6 +11,7 @@ import {
 import {Drawer, List, ListItem, ListItemText, Divider} from "@material-ui/core";
 import Avatar from "../imgs/avatar.png";
 import {Link} from "react-router-dom";
+import {Filter} from "../Filter/Filter";
 
 export class Navbar extends React.Component {
 
@@ -74,7 +75,7 @@ export class Navbar extends React.Component {
                             <MDBIcon icon="ellipsis-v"/>
                         </MDBDropdownToggle>
                         <MDBDropdownMenu basic>
-                            <MDBDropdownItem><Link to="/filter">Filter</Link></MDBDropdownItem>
+                            <MDBDropdownItem><Filter/></MDBDropdownItem>
                         </MDBDropdownMenu>
                     </MDBDropdown>
                 </MDBNavbar>

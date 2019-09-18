@@ -6,6 +6,7 @@ import {Register} from "./Register/Register";
 import {TaskPlanner} from "./TaskPlanner/TaskPlanner";
 import {Profile} from "./Profile/Profile";
 import {NewTask} from "./Task/NewTask";
+import {UpdateTask} from "./Task/UpdateTask";
 
 class App extends React.Component {
 
@@ -19,6 +20,7 @@ class App extends React.Component {
                         <Route exact path="/taskPlanner" component={TaskPlanner}/>
                         <Route exact path="/profile" component={Profile}/>
                         <Route exact path="/taskPlanner/newTask" component={NewTask}/>
+                        <Route exact path="/taskPlanner/updateTask" component={UpdateTask}/>
                     </div>
                 </div>
             </Router>

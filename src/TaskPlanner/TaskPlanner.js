@@ -32,7 +32,7 @@ export class TaskPlanner extends React.Component {
                 },
                 {
                     "title": "Task Planner List",
-                    "description": "Here you must do the react view to allow someone to login in your app.",
+                    "description": "Here you must do the react view to allow someone to see their tasks in your app.",
                     "responsible": {
                         "name": "Carlos Medina",
                         "email": "carlos.medina@gmail.com"

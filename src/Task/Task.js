@@ -32,7 +32,7 @@ export class Task extends React.Component {
                     <MDBCardText><MDBIcon icon={"clock"}/> {this.props.dueDate}</MDBCardText>
                     <MDBCardText>{this.props.responsible.name}</MDBCardText>
                     <div style={{textAlign: "right"}}>
-                        <Link to="updateTask" color={"blue"}>
+                        <Link to="/taskPlanner/updateTask" color={"blue"}>
                             <MDBIcon icon={"edit"}/>
                         </Link>
                     </div>

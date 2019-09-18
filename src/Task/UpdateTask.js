@@ -9,13 +9,12 @@ import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 import TextField from "@material-ui/core/TextField";
 
-export class NewTask extends React.Component {
+export class UpdateTask extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            tasks: this.props.location.state,
-            newTask: {
+            updatedTask: {
                 title: "",
                 description: "",
                 status: "",
@@ -25,28 +24,28 @@ export class NewTask extends React.Component {
                     email: ""
                 }
             },
-            isCreated: false
+            isUpdated: false
         };
         this.handleTitle = this.handleTitle.bind(this);
         this.handleDescription = this.handleDescription.bind(this);
         this.handleStatus = this.handleStatus.bind(this);
         this.handleDueDate = this.handleDueDate.bind(this);
         this.handleResponsible = this.handleResponsible.bind(this);
-        this.handleCreate = this.handleCreate.bind(this);
+        this.handleUpdate = this.handleUpdate.bind(this);
         this.handleGoBack = this.handleGoBack.bind(this);
     }
 
     handleTitle(e) {
         e.persist();
         this.setState(prevState => ({
-            newTask: {
+            updatedTask: {
                 title: e.target.value,
-                description: prevState.newTask.description,
-                status: prevState.newTask.status,
-                dueDate: prevState.newTask.dueDate,
+                description: prevState.updatedTask.description,
+                status: prevState.updatedTask.status,
+                dueDate: prevState.updatedTask.dueDate,
                 responsible: {
-                    name: prevState.newTask.responsible.name,
-                    email: prevState.newTask.responsible.email
+                    name: prevState.updatedTask.responsible.name,
+                    email: prevState.updatedTask.responsible.email
                 }
             }
         }));
@@ -55,14 +54,14 @@ export class NewTask extends React.Component {
     handleDescription(e) {
         e.persist();
         this.setState(prevState => ({
-            newTask: {
-                title: prevState.newTask.title,
+            updatedTask: {
+                title: prevState.updatedTask.title,
                 description: e.target.value,
-                status: prevState.newTask.status,
-                dueDate: prevState.newTask.dueDate,
+                status: prevState.updatedTask.status,
+                dueDate: prevState.updatedTask.dueDate,
                 responsible: {
-                    name: prevState.newTask.responsible.name,
-                    email: prevState.newTask.responsible.email
+                    name: prevState.updatedTask.responsible.name,
+                    email: prevState.updatedTask.responsible.email
                 }
             }
         }));
@@ -71,14 +70,14 @@ export class NewTask extends React.Component {
     handleStatus(e) {
         e.persist();
         this.setState(prevState => ({
-            newTask: {
-                title: prevState.newTask.title,
-                description: prevState.newTask.description,
+            updatedTask: {
+                title: prevState.updatedTask.title,
+                description: prevState.updatedTask.description,
                 status: e.target.value,
-                dueDate: prevState.newTask.dueDate,
+                dueDate: prevState.updatedTask.dueDate,
                 responsible: {
-                    name: prevState.newTask.responsible.name,
-                    email: prevState.newTask.responsible.email
+                    name: prevState.updatedTask.responsible.name,
+                    email: prevState.updatedTask.responsible.email
                 }
             }
         }));
@@ -87,14 +86,14 @@ export class NewTask extends React.Component {
     handleDueDate(e) {
         e.persist();
         this.setState(prevState => ({
-            newTask: {
-                title: prevState.newTask.title,
-                description: prevState.newTask.description,
-                status: prevState.newTask.status,
+            updatedTask: {
+                title: prevState.updatedTask.title,
+                description: prevState.updatedTask.description,
+                status: prevState.updatedTask.status,
                 dueDate: e.target.value,
                 responsible: {
-                    name: prevState.newTask.responsible.name,
-                    email: prevState.newTask.responsible.email
+                    name: prevState.updatedTask.responsible.name,
+                    email: prevState.updatedTask.responsible.email
                 }
             }
         }));
@@ -103,11 +102,11 @@ export class NewTask extends React.Component {
     handleResponsible(e) {
         e.persist();
         this.setState(prevState => ({
-            newTask: {
-                title: prevState.newTask.title,
-                description: prevState.newTask.description,
-                status: prevState.newTask.status,
-                dueDate: prevState.newTask.dueDate,
+            updatedTask: {
+                title: prevState.updatedTask.title,
+                description: prevState.updatedTask.description,
+                status: prevState.updatedTask.status,
+                dueDate: prevState.updatedTask.dueDate,
                 responsible: {
                     name: e.target.value,
                     email: e.target.value + "@mail.com"
@@ -116,45 +115,35 @@ export class NewTask extends React.Component {
         }));
     }
 
-    handleCreate(e) {
+    handleUpdate(e) {
         e.preventDefault();
-        const title = this.state.newTask.title;
-        const description = this.state.newTask.description;
-        const status = this.state.newTask.status;
-        const dueDate = this.state.newTask.dueDate;
-        const responsible = this.state.newTask.responsible.name;
-        if (!title.length || !description.length || !status.length || !dueDate.length || !responsible.length) {
-            alert("You must enter all fields to create a task.");
-            return;
-        }
-        alert("Success: you have created a new task!");
+        alert("Success: you have updated the task!");
         this.setState(prevState => ({
-            tasks: prevState.tasks.concat(prevState.newTask),
-            isCreated: true
+            isUpdated: true
         }));
     }
 
     handleGoBack(e) {
-        this.setState({isCreated: true});
+        this.setState({isUpdated: true});
     }
 
     render() {
-        if (this.state.isCreated)
-            return <Redirect to={{pathname: "/taskPlanner", state: this.state.tasks}}/>;
+        if (this.state.isUpdated)
+            return <Redirect to={{pathname: "/taskPlanner"}}/>;
         return (
             <MDBContainer style={{width: "80%", marginTop: "10%"}}>
                 <div style={{textAlign: "center", marginBottom: "10%"}}>
-                    <h1>Create Task <img className="task" src={Task} alt="task"/></h1>
+                    <h1>Update Task <img className="task" src={Task} alt="task"/></h1>
                 </div>
                 <Divider/>
-                <form onSubmit={this.handleCreate}>
+                <form onSubmit={this.handleUpdate}>
                     <div>
                         <MDBInput
                             label="Title"
                             icon="sticky-note"
                             group
                             type="text"
-                            value={this.state.newTask.title}
+                            value={this.state.updatedTask.title}
                             onChange={this.handleTitle}
                         />
                         <MDBInput
@@ -162,12 +151,12 @@ export class NewTask extends React.Component {
                             icon="comment-alt"
                             group
                             type="text"
-                            value={this.state.newTask.description}
+                            value={this.state.updatedTask.description}
                             onChange={this.handleDescription}
                         />
                         <InputLabel htmlFor="status">Status</InputLabel>
                         <Select style={{minWidth: "100%"}}
-                                value={this.state.newTask.status}
+                                value={this.state.updatedTask.status}
                                 onChange={this.handleStatus}
                         >
                             <MenuItem value={"ready"}>ready</MenuItem>
@@ -178,7 +167,7 @@ export class NewTask extends React.Component {
                         <TextField style={{minWidth: "100%"}}
                                    id="dueDate"
                                    type="date"
-                                   value={this.state.newTask.dueDate}
+                                   value={this.state.updatedTask.dueDate}
                                    onChange={this.handleDueDate}
                         />
                         <MDBInput
@@ -186,15 +175,15 @@ export class NewTask extends React.Component {
                             icon="user"
                             group
                             type="text"
-                            value={this.state.newTask.responsible.name}
+                            value={this.state.updatedTask.responsible.name}
                             onChange={this.handleResponsible}
                         />
                     </div>
                     <Divider/>
                     <div style={{textAlign: "center"}}>
                         <div className="btnCreateTask">
-                            <MDBBtn id="createTask" color="blue" type={"submit"}>
-                                <MDBIcon icon="plus-circle"/> Create</MDBBtn>
+                            <MDBBtn id="updateTask" color="blue" type={"submit"}>
+                                <MDBIcon icon="pencil-alt"/> Update</MDBBtn>
                         </div>
                         <div>
                             <MDBBtn id="goBack" color="blue" onClick={this.handleGoBack}>
