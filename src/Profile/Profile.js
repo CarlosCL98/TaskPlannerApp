@@ -3,7 +3,7 @@ import "./Profile.css";
 import {MDBBtn, MDBContainer, MDBIcon, MDBInput} from "mdbreact";
 import Avatar from "../imgs/avatar.png";
 import Divider from "@material-ui/core/Divider";
-import {Redirect} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 
 export class Profile extends React.Component {
 
@@ -21,7 +21,6 @@ export class Profile extends React.Component {
         this.handleEmailInput = this.handleEmailInput.bind(this);
         this.handlePwdInput = this.handlePwdInput.bind(this);
         this.handleUpdate = this.handleUpdate.bind(this);
-        this.handleGoBack = this.handleGoBack.bind(this);
     }
 
     handleNameInput(e) {
@@ -60,14 +59,13 @@ export class Profile extends React.Component {
         });
     }
 
-    handleGoBack(e) {
-        this.setState({isUpdated:true});
-    }
-
     render() {
         if (this.state.isUpdated) return <Redirect to="/taskPlanner"/>;
         return (
             <MDBContainer style={{width: "80%", marginTop: "10%"}}>
+                <div style={{textAlign:"left"}}>
+                    <Link to="/taskPlanner" className="btnBack"><MDBIcon icon="arrow-circle-left"/></Link>
+                </div>
                 <div style={{textAlign: "center", marginBottom: "10%"}}>
                     <h1>Update Profile</h1>
                     <img className="avatarProfile" src={Avatar} alt="avatar"/>
@@ -109,13 +107,10 @@ export class Profile extends React.Component {
                         />
                     </div>
                     <Divider/>
-                    <div style={{textAlign: "center"}}>
+                    <div style={{textAlign: "right"}}>
                         <div className="btnUpdateProfile">
                             <MDBBtn id="updateProfile" color="blue" type={"submit"}><MDBIcon
                                 icon="user-edit"/> Update</MDBBtn>
-                        </div>
-                        <div>
-                            <MDBBtn id="goBack" color="blue" onClick={this.handleGoBack}><MDBIcon icon="arrow-circle-left"/> Go Back</MDBBtn>
                         </div>
                     </div>
                 </form>
