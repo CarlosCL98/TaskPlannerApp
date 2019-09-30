@@ -1,13 +1,14 @@
 import React from "react";
 import "./Task.css";
-import {MDBBtn, MDBContainer, MDBIcon, MDBInput} from "mdbreact";
+import {MDBContainer, MDBIcon, MDBInput} from "mdbreact";
 import Task from "../imgs/logo_v1.png";
 import Divider from "@material-ui/core/Divider";
-import {Redirect} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 import TextField from "@material-ui/core/TextField";
+import Fab from "@material-ui/core/Fab";
 
 export class UpdateTask extends React.Component {
 
@@ -131,7 +132,10 @@ export class UpdateTask extends React.Component {
         if (this.state.isUpdated)
             return <Redirect to={{pathname: "/taskPlanner"}}/>;
         return (
-            <MDBContainer style={{width: "80%", marginTop: "10%"}}>
+            <MDBContainer style={{width: "80%", marginTop: "5%"}}>
+                <div style={{textAlign: "left"}}>
+                    <Link to="/taskPlanner" className="btnBack"><MDBIcon icon="arrow-circle-left"/></Link>
+                </div>
                 <div style={{textAlign: "center", marginBottom: "10%"}}>
                     <h1>Update Task <img className="task" src={Task} alt="task"/></h1>
                 </div>
@@ -180,15 +184,13 @@ export class UpdateTask extends React.Component {
                         />
                     </div>
                     <Divider/>
-                    <div style={{textAlign: "center"}}>
-                        <div className="btnCreateTask">
-                            <MDBBtn id="updateTask" color="blue" type={"submit"}>
-                                <MDBIcon icon="pencil-alt"/> Update</MDBBtn>
-                        </div>
-                        <div>
-                            <MDBBtn id="goBack" color="blue" onClick={this.handleGoBack}>
-                                <MDBIcon icon="arrow-circle-left"/> Go Back
-                            </MDBBtn>
+                    <div style={{textAlign: "right"}}>
+                        <div className="btnUpdateTask">
+                            <Fab style={{backgroundColor:"#0D75EA"}}>
+                                <button id="updateTask" type={"submit"}>
+                                    <MDBIcon icon="check"/>
+                                </button>
+                            </Fab>
                         </div>
                     </div>
                 </form>

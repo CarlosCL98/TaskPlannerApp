@@ -1,8 +1,10 @@
 import React from "react";
+import "./TaskPlanner.css";
 import {Navbar} from "./Navbar";
 import {TaskList} from "../Task/TaskList";
 import {Link} from "react-router-dom";
-import {MDBContainer, MDBIcon} from "mdbreact";
+import {MDBIcon} from "mdbreact";
+import Fab from "@material-ui/core/Fab";
 
 export class TaskPlanner extends React.Component {
 
@@ -55,11 +57,13 @@ export class TaskPlanner extends React.Component {
             <div>
                 <Navbar/>
                 <TaskList task={this.state.tasks}/>
-                <MDBContainer style={{textAlign: "right"}}>
-                    <Link to={{pathname: "/taskPlanner/newTask", state: this.state.tasks}} color={"blue"} style={{borderRadius: "100%"}}>
-                        <MDBIcon icon={"plus-circle"}/> New Task
+                <div className="btnCreateTask" style={{textAlign: "right", marginRight: "7%"}}>
+                    <Link to={{pathname: "/taskPlanner/newTask", state: this.state.tasks}}>
+                        <Fab style={{backgroundColor: "#0D75EA"}}>
+                            <MDBIcon icon={"plus"} className="iconNewTask"/>
+                        </Fab>
                     </Link>
-                </MDBContainer>
+                </div>
             </div>
         );
     }

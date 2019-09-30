@@ -1,0 +1,15 @@
+#updateProfile {
+    background: none;
+    border: none;
+    color: white;
+}
+
+.btnCreateTask {
+    text-align: right;
+    margin-right: 7%;
+    margin-bottom: 5%;
+}
+
+.iconNewTask {
+    color: white;
+}

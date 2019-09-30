@@ -7,6 +7,24 @@
     margin-top: 10%;
 }
 
-.updateTask {
+.btnUpdateTask {
     margin-top: 10%;
+}
+
+#createTask {
+    background: none;
+    border: none;
+    color: white;
+}
+
+#updateTask {
+    background: none;
+    border: none;
+    color: white;
+}
+
+.cardTask {
+    background: none;
+    border: none;
+    text-align: left;
 }

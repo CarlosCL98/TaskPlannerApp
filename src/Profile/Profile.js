@@ -1,8 +1,9 @@
 import React from "react";
 import "./Profile.css";
-import {MDBBtn, MDBContainer, MDBIcon, MDBInput} from "mdbreact";
+import {MDBContainer, MDBIcon, MDBInput} from "mdbreact";
 import Avatar from "../imgs/avatar.png";
 import Divider from "@material-ui/core/Divider";
+import Fab from '@material-ui/core/Fab';
 import {Link, Redirect} from "react-router-dom";
 
 export class Profile extends React.Component {
@@ -62,8 +63,8 @@ export class Profile extends React.Component {
     render() {
         if (this.state.isUpdated) return <Redirect to="/taskPlanner"/>;
         return (
-            <MDBContainer style={{width: "80%", marginTop: "10%"}}>
-                <div style={{textAlign:"left"}}>
+            <MDBContainer style={{width: "80%", marginTop: "5%"}}>
+                <div style={{textAlign: "left"}}>
                     <Link to="/taskPlanner" className="btnBack"><MDBIcon icon="arrow-circle-left"/></Link>
                 </div>
                 <div style={{textAlign: "center", marginBottom: "10%"}}>
@@ -109,8 +110,11 @@ export class Profile extends React.Component {
                     <Divider/>
                     <div style={{textAlign: "right"}}>
                         <div className="btnUpdateProfile">
-                            <MDBBtn id="updateProfile" color="blue" type={"submit"}><MDBIcon
-                                icon="user-edit"/> Update</MDBBtn>
+                            <Fab style={{backgroundColor:"#0D75EA"}}>
+                                <button id="updateProfile" type={"submit"}>
+                                    <MDBIcon icon="check"/>
+                                </button>
+                            </Fab>
                         </div>
                     </div>
                 </form>

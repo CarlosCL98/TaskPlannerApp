@@ -8,6 +8,12 @@
     margin-top: 10%;
 }
 
+#createTask {
+    background: none;
+    border: none;
+    color: white;
+}
+
 .btnUpdateProfile {
     margin-top: 10%;
 }
