@@ -12,7 +12,7 @@ export class TaskPlanner extends React.Component {
         super(props);
         this.state = {
             tasks: [
-                {
+                /*{
                     "title": "Implement Login View",
                     "description": "Here you must do the react view to allow someone to login in your app.",
                     "responsible": {
@@ -41,15 +41,24 @@ export class TaskPlanner extends React.Component {
                     },
                     "status": "complete",
                     "dueDate": new Date("2019-09-16").toDateString()
-                }
+                }*/
             ]
         };
-        if (this.props.location.state) {
-            const newTask = this.props.location.state;
-            this.state = {
-                tasks: newTask
-            };
-        }
+    }
+
+    componentDidMount() {
+        fetch("http://localhost:8081/taskPlanner/v1/tasks")
+            .then(response => response.json())
+            .then(data => {
+                let tasksList = [];
+                data.forEach(function (task) {
+                    console.log(task);
+                    tasksList.push(
+                       task
+                    )
+                });
+                this.setState({tasks: tasksList});
+            });
     }
 
     render() {
@@ -58,7 +67,7 @@ export class TaskPlanner extends React.Component {
                 <Navbar/>
                 <TaskList task={this.state.tasks}/>
                 <div className="btnCreateTask" style={{textAlign: "right", marginRight: "7%"}}>
-                    <Link to={{pathname: "/taskPlanner/newTask", state: this.state.tasks}}>
+                    <Link to={{pathname: "/taskPlanner/newTask"}}>
                         <Fab style={{backgroundColor: "#0D75EA"}}>
                             <MDBIcon icon={"plus"} className="iconNewTask"/>
                         </Fab>

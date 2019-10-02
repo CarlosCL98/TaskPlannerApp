@@ -128,11 +128,18 @@ export class NewTask extends React.Component {
             alert("You must enter all fields to create a task.");
             return;
         }
-        alert("Success: you have created a new task!");
-        this.setState(prevState => ({
-            tasks: prevState.tasks.concat(prevState.newTask),
-            isCreated: true
-        }));
+        fetch("http://localhost:8081/taskPlanner/v1/tasks", {
+          method: 'POST',
+          body: JSON.stringify(this.state.newTask),
+          headers:{
+            'Content-Type': 'application/json'
+          }
+        }).then(res => res.json())
+        .catch(error => console.error('Error:', error))
+        .then(response => {
+            alert("Success: you have created a new task!");
+            this.setState({isCreated: true});
+        });
     }
 
     handleGoBack(e) {
@@ -141,7 +148,7 @@ export class NewTask extends React.Component {
 
     render() {
         if (this.state.isCreated)
-            return <Redirect to={{pathname: "/taskPlanner", state: this.state.tasks}}/>;
+            return <Redirect to={{pathname: "/taskPlanner"}}/>;
         return (
             <MDBContainer style={{width: "80%", marginTop: "5%"}}>
                 <div style={{textAlign: "left"}}>
@@ -175,9 +182,9 @@ export class NewTask extends React.Component {
                                 value={this.state.newTask.status}
                                 onChange={this.handleStatus}
                         >
-                            <MenuItem value={"ready"}>ready</MenuItem>
-                            <MenuItem value={"in progress"}>in progress</MenuItem>
-                            <MenuItem value={"complete"}>complete</MenuItem>
+                            <MenuItem value={"READY"}>READY</MenuItem>
+                            <MenuItem value={"IN_PROGRESS"}>IN_PROGRESS</MenuItem>
+                            <MenuItem value={"COMPLETE"}>COMPLETE</MenuItem>
                         </Select>
                         <InputLabel style={{marginTop: "5%"}} htmlFor="dueDate">Due Date</InputLabel>
                         <TextField style={{minWidth: "100%"}}

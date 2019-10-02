@@ -16,6 +16,7 @@ export class UpdateTask extends React.Component {
         super(props);
         this.state = {
             updatedTask: {
+                id: this.props.location.state,
                 title: "",
                 description: "",
                 status: "",
@@ -33,7 +34,6 @@ export class UpdateTask extends React.Component {
         this.handleDueDate = this.handleDueDate.bind(this);
         this.handleResponsible = this.handleResponsible.bind(this);
         this.handleUpdate = this.handleUpdate.bind(this);
-        this.handleGoBack = this.handleGoBack.bind(this);
     }
 
     handleTitle(e) {
@@ -124,8 +124,23 @@ export class UpdateTask extends React.Component {
         }));
     }
 
-    handleGoBack(e) {
-        this.setState({isUpdated: true});
+    componentDidMount() {
+        fetch("http://localhost:8081/taskPlanner/v1/tasks/" + this.state.updatedTask.id)
+            .then(response => response.json())
+            .then(data => {
+                this.setState(prevState => ({
+                    updatedTask: {
+                        title: data.title,
+                        description: data.description,
+                        status: data.status,
+                        dueDate: data.dueDate,
+                        responsible: {
+                            name: data.responsible.name,
+                            email: data.responsible.email
+                        }
+                    }
+                }));
+            });
     }
 
     render() {
@@ -163,9 +178,9 @@ export class UpdateTask extends React.Component {
                                 value={this.state.updatedTask.status}
                                 onChange={this.handleStatus}
                         >
-                            <MenuItem value={"ready"}>ready</MenuItem>
-                            <MenuItem value={"in progress"}>in progress</MenuItem>
-                            <MenuItem value={"complete"}>complete</MenuItem>
+                            <MenuItem value={"READY"}>READY</MenuItem>
+                            <MenuItem value={"IN_PROGRESS"}>IN_PROGRESS</MenuItem>
+                            <MenuItem value={"COMPLETE"}>COMPLETE</MenuItem>
                         </Select>
                         <InputLabel style={{marginTop: "5%"}} htmlFor="dueDate">Due Date</InputLabel>
                         <TextField style={{minWidth: "100%"}}
