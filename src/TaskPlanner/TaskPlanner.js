@@ -52,7 +52,6 @@ export class TaskPlanner extends React.Component {
             .then(data => {
                 let tasksList = [];
                 data.forEach(function (task) {
-                    console.log(task);
                     tasksList.push(
                        task
                     )

@@ -1,8 +1,57 @@
-const cacheName = "taskplannerapp-v1";
+const doCache = true;
+
+const CACHE_NAME = "taskplannerapp-v1";
+
+self.addEventListener("activate", event => {
+    const cacheWhitelist = [CACHE_NAME];
+    event.waitUntil(
+        caches.keys().then(keyList =>
+            Promise.all(
+                keyList.map(key => {
+                    if (!cacheWhitelist.includes(key)) {
+                        console.log("Deleting cache: " + key);
+                        return caches.delete(key);
+                    }
+                })
+            )
+        )
+    );
+});
+
+self.addEventListener("install", function(event) {
+    if (doCache) {
+        event.waitUntil(
+            caches.open(CACHE_NAME).then(function(cache) {
+                fetch("manifest.json")
+                    .then(response => {
+                        response.json();
+                    })
+                    .then(assets => {
+                        const urlsToCache = ["/", "/index.html", "/manifest.json", "/App.js"];
+                        cache.addAll(urlsToCache);
+                        console.log("cached");
+                    });
+            })
+        );
+    }
+});
+
+self.addEventListener("fetch", function(event) {
+    if (doCache) {
+        event.respondWith(
+            caches.match(event.request).then(function(response) {
+                return response || fetch(event.request);
+            })
+        );
+    }
+});
+
+/*const cacheName = "taskplannerapp-v1";
 const staticAssets = [
     "/",
     "/index.html",
-    "/manifest.json"
+    "/manifest.json",
+    "/App.js"
 ];
 
 self.addEventListener("install", async e => {
@@ -41,4 +90,4 @@ async function networkAndCache(req) {
         const cached = await cache.match(req);
         return cached;
     }
-}
+}*/

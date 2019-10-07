@@ -34,7 +34,6 @@ export class NewTask extends React.Component {
         this.handleDueDate = this.handleDueDate.bind(this);
         this.handleResponsible = this.handleResponsible.bind(this);
         this.handleCreate = this.handleCreate.bind(this);
-        this.handleGoBack = this.handleGoBack.bind(this);
     }
 
     handleTitle(e) {
@@ -140,10 +139,6 @@ export class NewTask extends React.Component {
             alert("Success: you have created a new task!");
             this.setState({isCreated: true});
         });
-    }
-
-    handleGoBack(e) {
-        this.setState({isCreated: true});
     }
 
     render() {

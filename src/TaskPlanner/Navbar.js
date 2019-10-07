@@ -99,6 +99,15 @@ export class Navbar extends React.Component {
                 </List>
             </div>
         );
+        const responsibleFilter = (
+            <Select style={{minWidth: "80%"}}
+                    id="responsible"
+                    value={this.state.responsible}
+                    onChange={this.handleResponsibleFilter}
+            >
+                <MenuItem value={"Carlos Medina"}>Carlos Medina</MenuItem> /*GET USERS*/
+            </Select>
+        );
         return (
             <div>
                 <MDBNavbar color={"blue"}>
@@ -139,7 +148,7 @@ export class Navbar extends React.Component {
                                 value={this.state.responsible}
                                 onChange={this.handleResponsibleFilter}
                         >
-                            <MenuItem value={"Carlos Medina"}>Carlos Medina</MenuItem>
+                            <MenuItem value={"Carlos Medina"}>Carlos Medina</MenuItem> /*GET USERS*/
                         </Select>
                         <InputLabel htmlFor="statusFilter">Status</InputLabel>
                         <Select style={{minWidth: "80%"}}
@@ -147,7 +156,9 @@ export class Navbar extends React.Component {
                                 value={this.state.status}
                                 onChange={this.handleStatusFilter}
                         >
-                            <MenuItem value={new Date().toDateString()}>{new Date().toDateString()}</MenuItem>
+                            <MenuItem value={"READY"}>READY</MenuItem>
+                            <MenuItem value={"IN_PROGRESS"}>IN_PROGRESS</MenuItem>
+                            <MenuItem value={"COMPLETE"}>COMPLETE</MenuItem>
                         </Select>
                     </MDBModalBody>
                     <MDBModalFooter>

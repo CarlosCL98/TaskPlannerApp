@@ -9,6 +9,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 import TextField from "@material-ui/core/TextField";
 import Fab from "@material-ui/core/Fab";
+import axios from "axios";
 
 export class UpdateTask extends React.Component {
 
@@ -40,6 +41,7 @@ export class UpdateTask extends React.Component {
         e.persist();
         this.setState(prevState => ({
             updatedTask: {
+                id: prevState.updatedTask.id,
                 title: e.target.value,
                 description: prevState.updatedTask.description,
                 status: prevState.updatedTask.status,
@@ -56,6 +58,7 @@ export class UpdateTask extends React.Component {
         e.persist();
         this.setState(prevState => ({
             updatedTask: {
+                id: prevState.updatedTask.id,
                 title: prevState.updatedTask.title,
                 description: e.target.value,
                 status: prevState.updatedTask.status,
@@ -72,6 +75,7 @@ export class UpdateTask extends React.Component {
         e.persist();
         this.setState(prevState => ({
             updatedTask: {
+                id: prevState.updatedTask.id,
                 title: prevState.updatedTask.title,
                 description: prevState.updatedTask.description,
                 status: e.target.value,
@@ -88,6 +92,7 @@ export class UpdateTask extends React.Component {
         e.persist();
         this.setState(prevState => ({
             updatedTask: {
+                id: prevState.updatedTask.id,
                 title: prevState.updatedTask.title,
                 description: prevState.updatedTask.description,
                 status: prevState.updatedTask.status,
@@ -104,6 +109,7 @@ export class UpdateTask extends React.Component {
         e.persist();
         this.setState(prevState => ({
             updatedTask: {
+                id: prevState.updatedTask.id,
                 title: prevState.updatedTask.title,
                 description: prevState.updatedTask.description,
                 status: prevState.updatedTask.status,
@@ -118,10 +124,15 @@ export class UpdateTask extends React.Component {
 
     handleUpdate(e) {
         e.preventDefault();
-        alert("Success: you have updated the task!");
-        this.setState(prevState => ({
-            isUpdated: true
-        }));
+        const self = this;
+        axios.put("http://localhost:8081/taskPlanner/v1/tasks", self.state.updatedTask)
+            .then(function (response) {
+                alert("Success: you have updated the task!");
+                self.setState({isUpdated: true});
+            })
+            .catch(function (error) {
+                console.log("Error: it could not update the task. --> " + error);
+            });
     }
 
     componentDidMount() {
@@ -130,6 +141,7 @@ export class UpdateTask extends React.Component {
             .then(data => {
                 this.setState(prevState => ({
                     updatedTask: {
+                        id: data.id,
                         title: data.title,
                         description: data.description,
                         status: data.status,
