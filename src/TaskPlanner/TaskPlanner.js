@@ -5,65 +5,51 @@ import {TaskList} from "../Task/TaskList";
 import {Link} from "react-router-dom";
 import {MDBIcon} from "mdbreact";
 import Fab from "@material-ui/core/Fab";
+import axios from "axios";
 
 export class TaskPlanner extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            tasks: [
-                /*{
-                    "title": "Implement Login View",
-                    "description": "Here you must do the react view to allow someone to login in your app.",
-                    "responsible": {
-                        "name": "Carlos Medina",
-                        "email": "carlos.medina@gmail.com"
-                    },
-                    "status": "ready",
-                    "dueDate": new Date("2019-09-16").toDateString()
-                },
-                {
-                    "title": "Implement Register View",
-                    "description": "Here you must do the react view to allow someone to register in your app.",
-                    "responsible": {
-                        "name": "Carlos Medina",
-                        "email": "carlos.medina@gmail.com"
-                    },
-                    "status": "in progress",
-                    "dueDate": new Date("2019-09-16").toDateString()
-                },
-                {
-                    "title": "Task Planner List",
-                    "description": "Here you must do the react view to allow someone to see their tasks in your app.",
-                    "responsible": {
-                        "name": "Carlos Medina",
-                        "email": "carlos.medina@gmail.com"
-                    },
-                    "status": "complete",
-                    "dueDate": new Date("2019-09-16").toDateString()
-                }*/
-            ]
+            user: "",
+            tasks: []
         };
+        this.axios = axios.create({
+            baseURL: 'http://localhost:8081/taskPlanner/v1/',
+            timeout: 1000,
+            headers: {'Authorization': 'Bearer ' + localStorage.getItem("authToken")}
+        });
     }
 
     componentDidMount() {
-        fetch("http://localhost:8081/taskPlanner/v1/tasks")
-            .then(response => response.json())
-            .then(data => {
+        const self = this;
+        this.axios.get("http://localhost:8081/taskPlanner/v1/users/usernameEmail/" + localStorage.getItem("user"))
+            .then(function (response) {
+                self.setState({user: response.data});
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        this.axios.get("http://localhost:8081/taskPlanner/v1/tasks")
+            .then(function (response) {
                 let tasksList = [];
-                data.forEach(function (task) {
+                response.data.forEach(function (task) {
                     tasksList.push(
-                       task
+                        task
                     )
                 });
-                this.setState({tasks: tasksList});
+                self.setState({tasks: tasksList});
+            })
+            .catch(function (error) {
+                console.log(error);
             });
     }
 
     render() {
         return (
             <div>
-                <Navbar/>
+                <Navbar user={this.state.user}/>
                 <TaskList task={this.state.tasks}/>
                 <div className="btnCreateTask" style={{textAlign: "right", marginRight: "7%"}}>
                     <Link to={{pathname: "/taskPlanner/newTask"}}>

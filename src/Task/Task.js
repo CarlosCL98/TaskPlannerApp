@@ -20,10 +20,7 @@ export class Task extends React.Component {
                 description: this.props.description,
                 status: this.props.status,
                 dueDate: this.props.dueDate,
-                responsible: {
-                    name: this.props.responsible.name,
-                    email: this.props.responsible.email
-                }
+                responsible: this.props.responsible
             },
             update: false
         }
@@ -58,7 +55,7 @@ export class Task extends React.Component {
                         <MDBCardText>{this.state.task.description}</MDBCardText>
                         <MDBCardText>{this.state.task.status}</MDBCardText>
                         <MDBCardText><MDBIcon icon={"clock"}/> {this.state.task.dueDate}</MDBCardText>
-                        <MDBCardText>{this.state.task.responsible.name}</MDBCardText>
+                        <MDBCardText>{this.state.task.responsible !== null ? this.state.task.responsible.name : "This task has no responsible."}</MDBCardText>
                     </MDBCardBody>
                 </MDBCard>
             </button>

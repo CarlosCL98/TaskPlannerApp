@@ -2,6 +2,7 @@ import React from "react";
 import "./Login.css";
 import {MDBBtn, MDBCol, MDBContainer, MDBIcon, MDBInput, MDBRow} from "mdbreact";
 import {Link, Redirect} from "react-router-dom";
+import axios from "axios";
 
 export class Login extends React.Component {
 
@@ -33,16 +34,28 @@ export class Login extends React.Component {
             alert("You must enter your email or username and password.");
             return;
         }
-        const localUsername = localStorage.getItem("username");
-        const localEmail = localStorage.getItem("email");
-        const localPwd = localStorage.getItem("pwd");
-        if ((localUsername !== user || localEmail !== user) && localPwd !== pwd) {
-            alert("Incorrect credentials. Try again!");
-            return;
+        let usernameLogin = null;
+        let emailLogin = null;
+        if (user.includes("@")) {
+            emailLogin = user;
         } else {
-            this.setState({isLoggedIn: true});
-            localStorage.setItem("isLoggedIn", "true");
+            usernameLogin = user;
         }
+        localStorage.setItem("user", this.state.user);
+        const self = this;
+        axios.post('http://localhost:8081/taskPlanner/v1/user/login', {
+            username: usernameLogin,
+            email: emailLogin,
+            password: pwd
+        })
+            .then(function (response) {
+                localStorage.setItem("authToken", response.data.accessToken);
+                self.setState({isLoggedIn: true});
+            })
+            .catch(function (error) {
+                alert("Something happen! Check your credentials and try again.");
+                console.log(error);
+            });
     }
 
     render() {

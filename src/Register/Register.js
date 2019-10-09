@@ -3,6 +3,7 @@ import "./Register.css";
 import {MDBBtn, MDBCol, MDBContainer, MDBInput, MDBRow} from "mdbreact";
 import {Link, Redirect} from "react-router-dom";
 import Avatar from "../imgs/avatar.png";
+import axios from "axios";
 
 export class Register extends React.Component {
 
@@ -59,23 +60,25 @@ export class Register extends React.Component {
             alert("Verify password.");
             return;
         }
-        localStorage.setItem("name", name);
-        localStorage.setItem("username", username);
-        localStorage.setItem("email", email);
-        localStorage.setItem("pwd", pwd);
-        alert("Success: you have registered!");
-        this.setState({
-            name: "",
-            username: "",
-            email: "",
-            pwd: "",
-            pwdVerify: "",
-            isRegistered: true
-        });
+        const self = this;
+        axios.post('http://localhost:8081/taskPlanner/v1/user/register', {
+            name: self.state.name,
+            username: self.state.username,
+            email: self.state.email,
+            password: self.state.pwd
+        })
+            .then(function (response) {
+                alert("Success: you have registered!");
+                self.setState({isRegistered: true});
+            })
+            .catch(function (error) {
+                console.log(error);
+                alert("Error: register was not complete. Try again");
+            });
     }
 
     render() {
-        if (this.state.isRegistered) return <Redirect to="/taskPlanner"/>;
+        if (this.state.isRegistered) return <Redirect to="/"/>;
         return (
             <div>
                 <MDBContainer style={{width: "100%"}}>

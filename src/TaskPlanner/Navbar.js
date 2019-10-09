@@ -42,7 +42,7 @@ export class Navbar extends React.Component {
     };
 
     handleLogout(e) {
-        //localStorage.clear();
+        localStorage.clear();
     }
 
     handleToggleModal = (open) => (e) => {
@@ -84,8 +84,8 @@ export class Navbar extends React.Component {
                 <List>
                     <ListItem>
                         <img className="avatarNav" src={Avatar} alt="avatar"/>
-                        <ListItemText primary={localStorage.getItem("username")}
-                                      secondary={localStorage.getItem("email")}/>
+                        <ListItemText primary={this.props.user.username}
+                                      secondary={this.props.user.email}/>
                     </ListItem>
                     <ListItem>
                         <ListItemText primary={profileBtn} style={{textAlign: "right"}}/>
@@ -105,7 +105,7 @@ export class Navbar extends React.Component {
                     value={this.state.responsible}
                     onChange={this.handleResponsibleFilter}
             >
-                <MenuItem value={"Carlos Medina"}>Carlos Medina</MenuItem> /*GET USERS*/
+                <MenuItem value={"c@m.com"}>Carlos Medina</MenuItem> /*GET USERS*/
             </Select>
         );
         return (
@@ -143,13 +143,7 @@ export class Navbar extends React.Component {
                             <MenuItem value={new Date().toDateString()}>{new Date().toDateString()}</MenuItem>
                         </Select>
                         <InputLabel htmlFor="responsible">Responsible</InputLabel>
-                        <Select style={{minWidth: "80%"}}
-                                id="responsible"
-                                value={this.state.responsible}
-                                onChange={this.handleResponsibleFilter}
-                        >
-                            <MenuItem value={"Carlos Medina"}>Carlos Medina</MenuItem> /*GET USERS*/
-                        </Select>
+                        {responsibleFilter}
                         <InputLabel htmlFor="statusFilter">Status</InputLabel>
                         <Select style={{minWidth: "80%"}}
                                 id="statusFilter"

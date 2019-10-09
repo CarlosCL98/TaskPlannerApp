@@ -1,5 +1,5 @@
 import React from "react";
-import { MDBRow, MDBCol, MDBContainer } from "mdbreact";
+import {MDBRow, MDBCol, MDBContainer} from "mdbreact";
 import homeBanner from "../imgs/logo_v2.png";
 import "./Home.css";
 import {Login} from "../Login/Login";
@@ -22,7 +22,9 @@ export class Home extends React.Component {
                     <MDBRow className="description">
                         <MDBCol xs={5} sm={2} md={2}></MDBCol>
                         <MDBCol xs={2} sm={8} md={8}>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In imperdiet orci eget condimentum condimentum. Nulla ultrices eros posuere, gravida neque vel, venenatis lectus. Pellentesque vitae turpis quis sapien vestibulum pellentesque nec elementum turpis. </p>
+                            <p>Task Planner App allows you to create tasks, asign them to a responsible, establish a due
+                                date to do it and put them a state to do the correct tracing of all the activities
+                                ready, in progress or complete.</p>
                         </MDBCol>
                         <MDBCol xs={5} sm={2} md={2}></MDBCol>
                     </MDBRow>

@@ -16,17 +16,12 @@ export class UpdateTask extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            updatedTask: {
-                id: this.props.location.state,
-                title: "",
-                description: "",
-                status: "",
-                dueDate: "",
-                responsible: {
-                    name: "",
-                    email: ""
-                }
-            },
+            id: this.props.location.state,
+            title: "",
+            description: "",
+            status: "",
+            dueDate: "",
+            responsible: "",
             isUpdated: false
         };
         this.handleTitle = this.handleTitle.bind(this);
@@ -35,123 +30,93 @@ export class UpdateTask extends React.Component {
         this.handleDueDate = this.handleDueDate.bind(this);
         this.handleResponsible = this.handleResponsible.bind(this);
         this.handleUpdate = this.handleUpdate.bind(this);
+        this.axios = axios.create({
+            baseURL: 'http://localhost:8081/taskPlanner/v1/',
+            timeout: 1000,
+            headers: {'Authorization': 'Bearer ' + localStorage.getItem("authToken")}
+        });
     }
 
     handleTitle(e) {
-        e.persist();
-        this.setState(prevState => ({
-            updatedTask: {
-                id: prevState.updatedTask.id,
-                title: e.target.value,
-                description: prevState.updatedTask.description,
-                status: prevState.updatedTask.status,
-                dueDate: prevState.updatedTask.dueDate,
-                responsible: {
-                    name: prevState.updatedTask.responsible.name,
-                    email: prevState.updatedTask.responsible.email
-                }
-            }
-        }));
+        this.setState({title: e.target.value});
     }
 
     handleDescription(e) {
-        e.persist();
-        this.setState(prevState => ({
-            updatedTask: {
-                id: prevState.updatedTask.id,
-                title: prevState.updatedTask.title,
-                description: e.target.value,
-                status: prevState.updatedTask.status,
-                dueDate: prevState.updatedTask.dueDate,
-                responsible: {
-                    name: prevState.updatedTask.responsible.name,
-                    email: prevState.updatedTask.responsible.email
-                }
-            }
-        }));
+        this.setState({description: e.target.value});
     }
 
     handleStatus(e) {
-        e.persist();
-        this.setState(prevState => ({
-            updatedTask: {
-                id: prevState.updatedTask.id,
-                title: prevState.updatedTask.title,
-                description: prevState.updatedTask.description,
-                status: e.target.value,
-                dueDate: prevState.updatedTask.dueDate,
-                responsible: {
-                    name: prevState.updatedTask.responsible.name,
-                    email: prevState.updatedTask.responsible.email
-                }
-            }
-        }));
+        this.setState({status: e.target.value});
     }
 
     handleDueDate(e) {
-        e.persist();
-        this.setState(prevState => ({
-            updatedTask: {
-                id: prevState.updatedTask.id,
-                title: prevState.updatedTask.title,
-                description: prevState.updatedTask.description,
-                status: prevState.updatedTask.status,
-                dueDate: e.target.value,
-                responsible: {
-                    name: prevState.updatedTask.responsible.name,
-                    email: prevState.updatedTask.responsible.email
-                }
-            }
-        }));
+        this.setState({dueDate: e.target.value});
     }
 
     handleResponsible(e) {
-        e.persist();
-        this.setState(prevState => ({
-            updatedTask: {
-                id: prevState.updatedTask.id,
-                title: prevState.updatedTask.title,
-                description: prevState.updatedTask.description,
-                status: prevState.updatedTask.status,
-                dueDate: prevState.updatedTask.dueDate,
-                responsible: {
-                    name: e.target.value,
-                    email: e.target.value + "@mail.com"
-                }
-            }
-        }));
+        this.setState({responsible: e.target.value});
     }
 
-    handleUpdate(e) {
+    async handleUpdate(e) {
         e.preventDefault();
+        const title = this.state.title;
+        const description = this.state.description;
+        const status = this.state.status;
+        const dueDate = this.state.dueDate;
+        const responsible = this.state.responsible;
+        let ok = true;
         const self = this;
-        axios.put("http://localhost:8081/taskPlanner/v1/tasks", self.state.updatedTask)
+        await this.axios.put("http://localhost:8081/taskPlanner/v1/tasks", {
+            id: this.state.id,
+            title: title,
+            description: description,
+            status: status,
+            dueDate: dueDate,
+            responsible: null
+        })
             .then(function (response) {
                 alert("Success: you have updated the task!");
-                self.setState({isUpdated: true});
             })
             .catch(function (error) {
                 console.log("Error: it could not update the task. --> " + error);
+                ok = ok && false;
             });
+        if (responsible.length) {
+            await this.axios.get("http://localhost:8081/taskPlanner/v1/users/usernameEmail/" + this.state.responsible)
+                .then(function (response) {
+                    self.setState({responsible: response.data});
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    ok = ok && false;
+                });
+            await this.axios.put("http://localhost:8081/taskPlanner/v1/users/tasks/" + this.state.id, this.state.responsible)
+                .then(function (response) {
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    ok = ok && false;
+                });
+        }
+        if (ok) {
+            this.setState({isUpdated: true});
+        }
     }
 
     componentDidMount() {
-        fetch("http://localhost:8081/taskPlanner/v1/tasks/" + this.state.updatedTask.id)
-            .then(response => response.json())
-            .then(data => {
-                this.setState(prevState => ({
-                    updatedTask: {
-                        id: data.id,
-                        title: data.title,
-                        description: data.description,
-                        status: data.status,
-                        dueDate: data.dueDate,
-                        responsible: {
-                            name: data.responsible.name,
-                            email: data.responsible.email
-                        }
-                    }
-                }));
+        const self = this;
+        this.axios.get("http://localhost:8081/taskPlanner/v1/tasks/" + this.state.id)
+            .then(function (response) {
+                self.setState({
+                    title: response.data.title,
+                    description: response.data.description,
+                    status: response.data.status,
+                    dueDate: response.data.dueDate,
+                    responsible: response.data.responsible !== null ? response.data.responsible.email : ""
+                });
+            })
+            .catch(function (error) {
+                console.log(error);
             });
     }
 
@@ -174,7 +139,7 @@ export class UpdateTask extends React.Component {
                             icon="sticky-note"
                             group
                             type="text"
-                            value={this.state.updatedTask.title}
+                            value={this.state.title}
                             onChange={this.handleTitle}
                         />
                         <MDBInput
@@ -182,12 +147,12 @@ export class UpdateTask extends React.Component {
                             icon="comment-alt"
                             group
                             type="text"
-                            value={this.state.updatedTask.description}
+                            value={this.state.description}
                             onChange={this.handleDescription}
                         />
                         <InputLabel htmlFor="status">Status</InputLabel>
                         <Select style={{minWidth: "100%"}}
-                                value={this.state.updatedTask.status}
+                                value={this.state.status}
                                 onChange={this.handleStatus}
                         >
                             <MenuItem value={"READY"}>READY</MenuItem>
@@ -198,22 +163,22 @@ export class UpdateTask extends React.Component {
                         <TextField style={{minWidth: "100%"}}
                                    id="dueDate"
                                    type="date"
-                                   value={this.state.updatedTask.dueDate}
+                                   value={this.state.dueDate}
                                    onChange={this.handleDueDate}
                         />
                         <MDBInput
-                            label="Responsible"
+                            label="Responsible Email"
                             icon="user"
                             group
-                            type="text"
-                            value={this.state.updatedTask.responsible.name}
+                            type="email"
+                            value={this.state.responsible}
                             onChange={this.handleResponsible}
                         />
                     </div>
                     <Divider/>
                     <div style={{textAlign: "right"}}>
                         <div className="btnUpdateTask">
-                            <Fab style={{backgroundColor:"#0D75EA"}}>
+                            <Fab style={{backgroundColor: "#0D75EA"}}>
                                 <button id="updateTask" type={"submit"}>
                                     <MDBIcon icon="check"/>
                                 </button>
