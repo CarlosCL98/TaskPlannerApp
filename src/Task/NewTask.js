@@ -22,6 +22,7 @@ export class NewTask extends React.Component {
             status: "",
             dueDate: "",
             responsible: "",
+            file: "",
             isCreated: false
         };
         this.handleTitle = this.handleTitle.bind(this);
@@ -30,6 +31,7 @@ export class NewTask extends React.Component {
         this.handleDueDate = this.handleDueDate.bind(this);
         this.handleResponsible = this.handleResponsible.bind(this);
         this.handleCreate = this.handleCreate.bind(this);
+        this.handleFile = this.handleFile.bind(this);
         this.axios = axios.create({
             baseURL: 'http://localhost:8081/taskPlanner/v1/',
             timeout: 1000,
@@ -70,6 +72,16 @@ export class NewTask extends React.Component {
             return;
         }
         const self = this;
+        let data = new FormData();
+        data.append("file", this.state.file);
+        await this.axios.post("http://localhost:8081/taskPlanner/v1/files", data)
+            .then(function (response) {
+                console.log("File uploaded successfully!");
+            })
+            .catch(function (error) {
+                console.log("Failed file upload. Please verify.", error);
+            });
+        /*
         await this.axios.post('http://localhost:8081/taskPlanner/v1/tasks', {
             title: title,
             description: description,
@@ -105,7 +117,12 @@ export class NewTask extends React.Component {
         }
         if (ok) {
             this.setState({isCreated: true});
-        }
+        }*/
+    }
+
+    handleFile(e) {
+        this.setState({file: e.target.files[0]});
+        console.log(e.target.files);
     }
 
     render() {
@@ -162,6 +179,12 @@ export class NewTask extends React.Component {
                             type="email"
                             value={this.state.responsible}
                             onChange={this.handleResponsible}
+                        />
+                        <input
+                            type="file"
+                            id="file"
+                            onChange={this.handleFile}
+                            style={{width: "100%", marginBottom: "10%"}}
                         />
                     </div>
                     <Divider/>
