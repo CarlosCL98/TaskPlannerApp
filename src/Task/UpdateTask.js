@@ -22,6 +22,7 @@ export class UpdateTask extends React.Component {
             status: "",
             dueDate: "",
             responsible: "",
+            file: "",
             isUpdated: false
         };
         this.handleTitle = this.handleTitle.bind(this);
@@ -30,6 +31,7 @@ export class UpdateTask extends React.Component {
         this.handleDueDate = this.handleDueDate.bind(this);
         this.handleResponsible = this.handleResponsible.bind(this);
         this.handleUpdate = this.handleUpdate.bind(this);
+        this.handleFile = this.handleFile.bind(this);
         this.axios = axios.create({
             baseURL: 'http://localhost:8081/taskPlanner/v1/',
             timeout: 1000,
@@ -66,13 +68,25 @@ export class UpdateTask extends React.Component {
         const responsible = this.state.responsible;
         let ok = true;
         const self = this;
+        let data = new FormData();
+        data.append("file", this.state.file);
+        let fileUrl = null;
+        await this.axios.post("http://localhost:8081/taskPlanner/v1/files", data)
+            .then(function (response) {
+                console.log("File '" + response.data + "' uploaded successfully!");
+                fileUrl = response.data;
+            })
+            .catch(function (error) {
+                console.log("Failed file upload. Please verify.", error);
+            });
         await this.axios.put("http://localhost:8081/taskPlanner/v1/tasks", {
             id: this.state.id,
             title: title,
             description: description,
             status: status,
             dueDate: dueDate,
-            responsible: null
+            responsible: null,
+            fileUrl: fileUrl
         })
             .then(function (response) {
                 alert("Success: you have updated the task!");
@@ -103,6 +117,10 @@ export class UpdateTask extends React.Component {
         }
     }
 
+    handleFile(e) {
+        this.setState({file: e.target.files[0]});
+    }
+
     componentDidMount() {
         const self = this;
         this.axios.get("http://localhost:8081/taskPlanner/v1/tasks/" + this.state.id)
@@ -112,7 +130,8 @@ export class UpdateTask extends React.Component {
                     description: response.data.description,
                     status: response.data.status,
                     dueDate: response.data.dueDate,
-                    responsible: response.data.responsible !== null ? response.data.responsible.email : ""
+                    responsible: response.data.responsible !== null ? response.data.responsible.email : "",
+                    fileUrl: response.data.fileUrl
                 });
             })
             .catch(function (error) {
@@ -173,6 +192,12 @@ export class UpdateTask extends React.Component {
                             type="email"
                             value={this.state.responsible}
                             onChange={this.handleResponsible}
+                        />
+                        <input
+                            type="file"
+                            id="file"
+                            onChange={this.handleFile}
+                            style={{width: "100%", marginBottom: "10%"}}
                         />
                     </div>
                     <Divider/>

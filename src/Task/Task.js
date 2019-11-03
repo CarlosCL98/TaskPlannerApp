@@ -20,10 +20,11 @@ export class Task extends React.Component {
                 description: this.props.description,
                 status: this.props.status,
                 dueDate: this.props.dueDate,
-                responsible: this.props.responsible
+                responsible: this.props.responsible,
+                fileUrl: this.props.fileUrl
             },
             update: false
-        }
+        };
         this.handleOnUpdate = this.handleOnUpdate.bind(this);
     }
 
@@ -56,6 +57,9 @@ export class Task extends React.Component {
                         <MDBCardText>{this.state.task.status}</MDBCardText>
                         <MDBCardText><MDBIcon icon={"clock"}/> {this.state.task.dueDate}</MDBCardText>
                         <MDBCardText>{this.state.task.responsible !== null ? this.state.task.responsible.name : "This task has no responsible."}</MDBCardText>
+                        <div style={{textAlign: "center"}}>
+                            {this.state.task.fileUrl !== null ? <img width={"35%"} height={"auto"} src={"http://localhost:8081/taskPlanner/v1/files/" + this.state.task.fileUrl} /> : ""}
+                        </div>
                     </MDBCardBody>
                 </MDBCard>
             </button>

@@ -9,7 +9,7 @@ export class TaskList extends React.Component {
         const tasks = taskList.map((task, i) => (
                 <MDBContainer key={"task_" + task.id} style={{width: "90%", marginBottom: "10%"}}>
                     <Task key={"task_" + task.id} id={task.id} title={task.title} description={task.description} status={task.status}
-                          dueDate={task.dueDate} responsible={task.responsible}/>
+                          dueDate={task.dueDate} responsible={task.responsible} fileUrl={task.fileUrl}/>
                 </MDBContainer>
             )
         );

@@ -74,20 +74,22 @@ export class NewTask extends React.Component {
         const self = this;
         let data = new FormData();
         data.append("file", this.state.file);
+        let fileUrl = null;
         await this.axios.post("http://localhost:8081/taskPlanner/v1/files", data)
             .then(function (response) {
-                console.log("File uploaded successfully!");
+                console.log("File '" + response.data + "' uploaded successfully!");
+                fileUrl = response.data;
             })
             .catch(function (error) {
                 console.log("Failed file upload. Please verify.", error);
             });
-        /*
         await this.axios.post('http://localhost:8081/taskPlanner/v1/tasks', {
             title: title,
             description: description,
             status: status,
             dueDate: dueDate,
-            responsible: null
+            responsible: null,
+            fileUrl: fileUrl
         })
             .then(function (response) {
                 alert("Success: you have created a new task!");
@@ -117,12 +119,11 @@ export class NewTask extends React.Component {
         }
         if (ok) {
             this.setState({isCreated: true});
-        }*/
+        }
     }
 
     handleFile(e) {
         this.setState({file: e.target.files[0]});
-        console.log(e.target.files);
     }
 
     render() {
